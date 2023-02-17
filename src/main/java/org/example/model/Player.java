@@ -32,7 +32,7 @@ public class Player {
     private String nickname;
 
     @Column(name = "IS_ACTIVE")
-    private Boolean isactive;
+    private Boolean isActive;
 
     @Column(name = "CREATED")
     private LocalDateTime created;

@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.List;
-import java.util.Scanner;
 
 @Service
 @Transactional(readOnly = true)
@@ -20,9 +17,11 @@ public class PlayerService {
     private PlayerRepository playerRepository;
 
     Logger logger = LogManager.getLogger(PlayerService.class);
+
+    @Transactional(readOnly = false)
     public Player savePlayer(Player player)
     {
-       return playerRepository.save(player);
+        return playerRepository.save(player);
     }
     public List<Player> fetchPlayerList()
     {
@@ -37,5 +36,47 @@ public class PlayerService {
                 playerRepository.findAll();
         logger.info(players);
        return players;
+    }
+
+    public Player getById(long playerId) {
+        if (playerId <= 0L) {
+            logger.info("PlayerId cannot be less or equal than zero. PlayerId: " + playerId);
+            return null;
+        }
+        return playerRepository.getReferenceById(playerId);
+    }
+
+    @Transactional(readOnly = false)
+    public void setPassivePlayer(long playerId) {
+        if (playerId <= 0L) {
+            logger.info("PlayerId cannot be less or equal than zero. PlayerId: " + playerId);
+            return;
+        }
+
+        Player player = getById(playerId);
+        if (player == null) {
+            logger.info("Player not found for that PlayerId: " + playerId);
+            return;
+        }
+
+        player.setIsActive(false);
+        savePlayer(player);
+    }
+
+    @Transactional(readOnly = false)
+    public void setActivatePlayer(long playerId) {
+        if (playerId <= 0L) {
+            logger.info("PlayerId cannot be less or equal than zero. PlayerId: " + playerId);
+            return;
+        }
+
+        Player player = getById(playerId);
+        if (player == null) {
+            logger.info("Player not found for that PlayerId: " + playerId);
+            return;
+        }
+
+        player.setIsActive(true);
+        savePlayer(player);
     }
 }
