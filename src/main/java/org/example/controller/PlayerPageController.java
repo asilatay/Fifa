@@ -18,22 +18,21 @@ public class PlayerPageController {
     public ModelAndView showPlayerListPage(Model model) {
         ModelAndView modelAndView = new ModelAndView();
         List<Player> playerList = playerService.fetchPlayerList();
-        //model.addAttribute("players", playerList);
         modelAndView.setViewName("playerList");
         modelAndView.addObject("players", playerList);
         return modelAndView;
-        //return "playerList";
     }
 
     @GetMapping("/player/add")
-    public String addNewPlayer(Model model) {
-        Player player = new Player();
-        model.addAttribute("player", player);
-        return "addPlayer";
+    public ModelAndView addNewPlayer(Model model) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("playerAdd");
+        modelAndView.addObject("player", new Player());
+        return modelAndView;
     }
 
-    @PostMapping("/save")
-    public String savePlayer(@ModelAttribute("player") Player player) {
+    @PostMapping("/player/save")
+    public String savePlayer(@ModelAttribute("player") Player player) throws Exception {
         playerService.savePlayer(player);
         return "redirect:/players";
     }

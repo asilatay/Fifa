@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -19,18 +20,22 @@ public class PlayerService {
     Logger logger = LogManager.getLogger(PlayerService.class);
 
     @Transactional(readOnly = false)
-    public Player savePlayer(Player player)
-    {
+    public Player savePlayer(Player player) throws Exception {
+        if (player == null) {
+            throw new Exception("Entity not found");
+        }
+        if (player.getId() <= 0) {
+            player.setIsActive(true);
+
+            player.setCreated(LocalDateTime.now());
+
+        }
+        player.setUpdated(LocalDateTime.now());
         return playerRepository.save(player);
     }
     public List<Player> fetchPlayerList()
     {
         logger.info("INFO Getting players from database");
-        logger.debug("DEBUG Getting players from database");
-        logger.error("ERROR - NO ERROR FROM DATABASE");
-
-
-        //
 
         List<Player> players =
                 playerRepository.findAll();
@@ -60,7 +65,11 @@ public class PlayerService {
         }
 
         player.setIsActive(false);
-        savePlayer(player);
+        try {
+            savePlayer(player);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 
     @Transactional(readOnly = false)
@@ -77,6 +86,10 @@ public class PlayerService {
         }
 
         player.setIsActive(true);
-        savePlayer(player);
+        try {
+            savePlayer(player);
+        } catch (Exception e) {
+            logger.error(e);
+        }
     }
 }
