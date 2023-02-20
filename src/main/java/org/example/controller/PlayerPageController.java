@@ -38,10 +38,13 @@ public class PlayerPageController {
     }
 
     @GetMapping("/player/edit/{id}")
-    public String updatePlayerInfo(@PathVariable(value = "id") long id, Model model) {
+    public ModelAndView updatePlayerInfo(@PathVariable(value = "id") long id, Model model) {
+        ModelAndView modelAndView = new ModelAndView();
         Player player = playerService.getById(id);
-        model.addAttribute("player", player);
-        return "editPlayer";
+        modelAndView.setViewName("playerEdit");
+        modelAndView.addObject("player", player);
+        //model.addAttribute("player", player);
+        return modelAndView;
     }
 
     @GetMapping("/player/cancel/{id}")
