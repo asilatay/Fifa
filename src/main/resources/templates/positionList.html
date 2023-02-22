@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Players</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+</head>
+<body>
+<div class="container my-2" align="center">
+
+    <h3>Position List</h3>
+    <a th:href="@{/position/add}" class="btn btn-primary btn-sm mb-3" >Add Position</a>
+    <table style="width:80%" border="1"
+           class = "table table-striped table-responsive-md">
+        <thead>
+        <tr>
+            <th>Code</th>
+            <th>Description</th>
+            <th>Active</th>
+            <th>Created Time</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="position:${positions}">
+            <td th:text="${position.code}"></td>
+            <td th:text="${position.description}"></td>
+            <td th:text="${position.isActive}"></td>
+            <td th:text="${position.created}"></td>
+            <td> <a th:href="@{/position/edit/{id}(id=${position.id})}"
+                    class="btn btn-primary">Edit Position</a>
+                <a th:if ="${position.isActive} "th:href="@{/position/cancel/{id}(id=${position.id})}"
+                   class="btn btn-danger">Passive Position</a>
+                <a th:unless ="${position.isActive} "th:href="@{/position/activate/{id}(id=${position.id})}"
+                   class="btn btn-danger">Activate Position</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
