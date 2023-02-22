@@ -15,7 +15,7 @@ public class PlayerPageController {
     PlayerService playerService;
 
     @GetMapping("/players")
-    public ModelAndView showPlayerListPage(Model model) {
+    public ModelAndView showPlayerListPage() {
         ModelAndView modelAndView = new ModelAndView();
         List<Player> playerList = playerService.fetchPlayerList();
         modelAndView.setViewName("playerList");
@@ -24,7 +24,7 @@ public class PlayerPageController {
     }
 
     @GetMapping("/player/add")
-    public ModelAndView addNewPlayer(Model model) {
+    public ModelAndView addNewPlayer() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("playerAdd");
         modelAndView.addObject("player", new Player());
@@ -32,9 +32,9 @@ public class PlayerPageController {
     }
 
     @PostMapping("/player/save")
-    public String savePlayer(@ModelAttribute("player") Player player) throws Exception {
+    public ModelAndView savePlayer(@ModelAttribute("player") Player player) throws Exception {
         playerService.savePlayer(player);
-        return "redirect:/players";
+        return showPlayerListPage();
     }
 
     @GetMapping("/player/edit/{id}")
@@ -43,21 +43,20 @@ public class PlayerPageController {
         Player player = playerService.getById(id);
         modelAndView.setViewName("playerEdit");
         modelAndView.addObject("player", player);
-        //model.addAttribute("player", player);
         return modelAndView;
     }
 
     @GetMapping("/player/cancel/{id}")
-    public String cancelPlayer(@PathVariable(value = "id") long id) {
+    public ModelAndView cancelPlayer(@PathVariable(value = "id") long id) {
         playerService.setPassivePlayer(id);
-        return "redirect:/players";
+        return showPlayerListPage();
 
     }
 
     @GetMapping("/player/activate/{id}")
-    public String activate(@PathVariable(value = "id") long id) {
+    public ModelAndView activate(@PathVariable(value = "id") long id) {
         playerService.setActivatePlayer(id);
-        return "redirect:/players";
+        return showPlayerListPage();
 
     }
 
