@@ -20,6 +20,11 @@
 
         <input type="text" th:field="*{nickname}" placeholder="Player Nickname" class="form-control mb-4 col-4">
 
+        <select class="form-control" th:field="*{positions}"  multiple>
+            <option value="0">Select Position</option>
+            <option th:each="position : ${positions}" th:value="${position.id}" th:text="${position.code}"></option>
+        </select>
+
         <button type="submit" class="btn btn-info col-2"> Save Player</button>
     </form>
 
