@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -39,5 +41,14 @@ public class Player {
 
     @Column(name = "UPDATED")
     private LocalDateTime updated;
+
+    @OneToMany
+    @JoinTable
+            (
+                    name="player_position",
+                    joinColumns={ @JoinColumn(name="PLAYER_ID", referencedColumnName="ID") },
+                    inverseJoinColumns={ @JoinColumn(name="POSITION_ID", referencedColumnName="ID", unique=true) }
+            )
+    private List<Position> positions = new ArrayList<>();
 
 }
