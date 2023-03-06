@@ -20,8 +20,11 @@
             <th>Name</th>
             <th>Surname</th>
             <th>Nickname</th>
+            <th>Rating</th>
+            <th>Team</th>
             <th>Active</th>
             <th>Created Time</th>
+            <th>Player Operations</th>
         </tr>
         </thead>
         <tbody>
@@ -29,6 +32,8 @@
             <td th:text="${player.name}"></td>
             <td th:text="${player.surname}"></td>
             <td th:text="${player.nickname}"></td>
+            <td th:text="${player.rating}"></td>
+            <td th:text="${player.team?.name}"></td>
             <td th:text="${player.isActive}"></td>
             <td th:text="${player.created}"></td>
             <td> <a th:href="@{/player/edit/{id}(id=${player.id})}"
