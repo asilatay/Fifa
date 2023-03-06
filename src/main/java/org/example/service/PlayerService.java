@@ -28,7 +28,6 @@ public class PlayerService {
             player.setIsActive(true);
 
             player.setCreated(LocalDateTime.now());
-
         }
         player.setUpdated(LocalDateTime.now());
         return playerRepository.save(player);

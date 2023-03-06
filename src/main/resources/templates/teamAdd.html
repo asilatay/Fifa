@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <meta charset="ISO-8859-1">
+  <title>Team Management System</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+
+<body>
+<div class="container">
+  <h1>Team Management System</h1>
+  <hr>
+  <h2>Save Team</h2>
+
+  <form action="#" th:action="@{/team/save}" th:object="${team}" method="POST">
+    <input type="text" th:field="*{name}" placeholder="Team Name" class="form-control mb-4 col-4">
+
+    <input type="text" th:field="*{nickname}" placeholder="Team Nickname" class="form-control mb-4 col-4">
+
+    <input type="text" th:field="*{establishmentYear}" placeholder="Team EstablishmentYear" class="form-control mb-4 col-4">
+
+    <button type="submit" class="btn btn-info col-2"> Save Team</button>
+  </form>
+
+  <hr>
+
+  <a th:href="@{/teams}"> Back to Team List</a>
+</div>
+</body>
+
+</html>

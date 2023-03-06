@@ -23,7 +23,7 @@ public class Team {
     @Column(name = "NAME")
     private String name;
 
-    @Column(name = "NICK_NAME")
+    @Column(name = "NICKNAME")
     private String nickname;
 
     @Column(name = "ESTABLISHMENT_YEAR")

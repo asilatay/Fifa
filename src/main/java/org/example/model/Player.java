@@ -24,8 +24,7 @@ public class Player {
     @jakarta.persistence.Id
     private long id;
 
-    @Column(name = "NAME")
-    private String name;
+
 
     @Column(name = "SURNAME")
     private String surname;
