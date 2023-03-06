@@ -24,7 +24,8 @@ public class Player {
     @jakarta.persistence.Id
     private long id;
 
-
+    @Column(name = "NAME")
+    private String name;
 
     @Column(name = "SURNAME")
     private String surname;
@@ -40,6 +41,14 @@ public class Player {
 
     @Column(name = "UPDATED")
     private LocalDateTime updated;
+
+    @Column(name = "RATING")
+    private Integer rating;
+
+    @ManyToOne
+    @JoinColumn(name="team_id")
+    private Team team;
+
 
     @OneToMany
     @JoinTable

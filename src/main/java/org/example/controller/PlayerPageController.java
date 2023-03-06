@@ -3,6 +3,7 @@ package org.example.controller;
 import org.example.model.Player;
 import org.example.service.PlayerService;
 import org.example.service.PositionService;
+import org.example.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,9 @@ public class PlayerPageController {
 
     @Autowired
     PositionService positionService;
+
+    @Autowired
+    TeamService teamService;
 
     @GetMapping("/players")
     public ModelAndView showPlayerListPage() {
@@ -33,6 +37,7 @@ public class PlayerPageController {
         modelAndView.setViewName("playerAdd");
         modelAndView.addObject("player", new Player());
         modelAndView.addObject("positions", positionService.fetchPositionList());
+        modelAndView.addObject("teamList", teamService.fetchTeamList());
         return modelAndView;
     }
 
@@ -47,6 +52,8 @@ public class PlayerPageController {
         ModelAndView modelAndView = new ModelAndView();
         Player player = playerService.getById(id);
         modelAndView.setViewName("playerEdit");
+        modelAndView.addObject("positions", positionService.fetchPositionList());
+        modelAndView.addObject("teamList", teamService.fetchTeamList());
         modelAndView.addObject("player", player);
         return modelAndView;
     }
