@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Players</title>
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+          integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+          crossorigin="anonymous">
+</head>
+<body>
+<div class="container my-2" align="center">
+
+    <h3>Player List</h3>
+    <a th:href="@{/user/add}" class="btn btn-primary btn-sm mb-3" >Add User</a>
+    <table style="width:80%" border="1"
+           class = "table table-striped table-responsive-md">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Active</th>
+            <th>Created Time</th>
+            <th>User Operations</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="user:${users}">
+            <td th:text="${user.name}"></td>
+            <td th:text="${user.surname}"></td>
+            <td th:text="${user.isActive}"></td>
+            <td th:text="${user.created}"></td>
+            <td> <a th:href="@{/user/edit/{id}(id=${user.id})}"
+                    class="btn btn-primary">Edit User</a>
+                <a th:if ="${user.isActive} "th:href="@{/user/cancel/{id}(id=${user.id})}"
+                   class="btn btn-danger">Passive User</a>
+                <a th:unless ="${user.isActive} "th:href="@{/user/activate/{id}(id=${user.id})}"
+                   class="btn btn-danger">Activate User</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
