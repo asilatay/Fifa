@@ -53,8 +53,15 @@ public class MixOperationService {
         // choose a team
         Team selectedTeam = chooseRandomTeam(availableTeams);
         mixOperation.setTeam(selectedTeam);
-
-        return null;
+        List<Player> playerList= chooseRandomPlayers(positionPlayerListMap);
+        List<MixOperationDetail> mixOperationDetailList=new ArrayList<MixOperationDetail>();
+        for(Player p : playerList){
+            MixOperationDetail mixOperationDetail=new MixOperationDetail();
+            mixOperationDetail.setPlayer(p);
+            mixOperationDetailList.add(mixOperationDetail);
+        }
+        mixOperation.setDetails(mixOperationDetailList);
+        return mixOperationRepository.save(mixOperation);
     }
 
     public List<MixOperation> fetchOperations() {
@@ -88,4 +95,39 @@ public class MixOperationService {
 
         return chosenTeam;
     }
+
+    private List<Player> chooseRandomPlayers(Map<Position, List<Player>> positionListMap){
+        List<Player> playerList=new ArrayList<Player>();
+        playerList.addAll(getRandomPlayers(positionListMap,ServiceParameterConstants.GK_COUNT,"GK"));
+        playerList.addAll(getRandomPlayers(positionListMap,ServiceParameterConstants.RB_COUNT,"RB"));
+        playerList.addAll(getRandomPlayers(positionListMap,ServiceParameterConstants.LB_COUNT,"LB"));
+        playerList.addAll(getRandomPlayers(positionListMap,ServiceParameterConstants.CB_COUNT,"CB"));
+        playerList.addAll(getRandomPlayers(positionListMap,ServiceParameterConstants.MD_COUNT,"MD"));
+        playerList.addAll(getRandomPlayers(positionListMap,ServiceParameterConstants.MO_COUNT,"MO"));
+        playerList.addAll(getRandomPlayers(positionListMap,ServiceParameterConstants.AMC_COUNT,"AMC"));
+        playerList.addAll(getRandomPlayers(positionListMap,ServiceParameterConstants.MR_COUNT,"MR"));
+        playerList.addAll(getRandomPlayers(positionListMap,ServiceParameterConstants.ML_COUNT,"ML"));
+        playerList.addAll(getRandomPlayers(positionListMap,ServiceParameterConstants.ST_COUNT,"ST"));
+        return playerList;
+    }
+
+    private List<Player> getRandomPlayers(Map<Position, List<Player>> positionListMap,int positionCount,String positionCode){
+        List<Player> playerList=new ArrayList<Player>();
+        Random randomizer = new Random();
+        List<Player> availablePlayerList=new ArrayList<Player>();
+        for (Map.Entry<Position, List<Player>> entry : positionListMap.entrySet()) {
+           if(entry.getKey().getCode().equals(positionCode)){
+               availablePlayerList = entry.getValue();
+               break;
+           }
+        }
+
+        for(int i=0;i<positionCount;i++){
+            Player chosenGK = availablePlayerList.get(randomizer.nextInt(availablePlayerList.size()));
+            playerList.add(chosenGK);
+            availablePlayerList.remove(chosenGK);
+        }
+        return playerList;
+    }
+
 }

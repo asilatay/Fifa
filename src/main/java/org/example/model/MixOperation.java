@@ -3,6 +3,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="mix_operation", schema = "public")
@@ -41,4 +43,8 @@ public class MixOperation {
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
+
+    @OneToMany
+    private List<MixOperationDetail> details = new ArrayList<>();
+
 }
