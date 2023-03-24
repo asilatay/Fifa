@@ -91,4 +91,9 @@ public class PlayerService {
             logger.error(e);
         }
     }
+
+    public List<Player> getAvailablePlayers(int minPlayerRating, int maxPlayerRating) {
+        List<Player> availablePlayers = playerRepository.getAvailablePlayers(minPlayerRating, maxPlayerRating);
+        return availablePlayers;
+    }
 }

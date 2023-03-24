@@ -95,4 +95,9 @@ public class TeamService {
         }
     }
 
+    public List<Team> getAvailableTeams() {
+        List<Team> availableTeams = teamRepository.getAvailableTeams();
+
+        return availableTeams;
+    }
 }
