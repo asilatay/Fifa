@@ -29,8 +29,8 @@
             <td th:text="${operation.id}"></td>
             <td th:text="${operation.team?.name}"></td>
             <td th:text="${operation.user?.name} + ${operation.user?.surname}"></td>
-            <td th:text="${player.isActive}"></td>
-            <td th:text="${player.created}"></td>
+            <td th:text="${operation.isActive}"></td>
+            <td th:text="${operation.created}"></td>
         </tr>
         </tbody>
     </table>

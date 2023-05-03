@@ -44,7 +44,11 @@ public class MixOperation {
     @JoinColumn(name="user_id")
     private User user;
 
-    @OneToMany
+    @OneToMany(
+            mappedBy="mixOperation",
+            cascade = CascadeType.ALL,
+            targetEntity = MixOperationDetail.class
+    )
     private List<MixOperationDetail> details = new ArrayList<>();
 
 }

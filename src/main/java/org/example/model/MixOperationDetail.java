@@ -20,11 +20,12 @@ public class MixOperationDetail {
     private long id;
 
     @ManyToOne
-    @JoinColumn(name="mix_operation_id")
-    private MixOperation mixOperation;
-
-    @ManyToOne
     @JoinColumn(name="player_id")
     private Player player;
+
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "mix_operation_id")
+    private MixOperation mixOperation;
 
 }

@@ -7,7 +7,7 @@ public class ServiceParameterConstants {
     public static  Integer RB_COUNT=1;
     public static  Integer CB_COUNT=3;
     public static  Integer LB_COUNT=1;
-    public static  Integer MD_COUNT=1;
+    public static  Integer MDO_COUNT=1;
     public static  Integer MO_COUNT=2;
     public static  Integer AMC_COUNT=1;
     public static  Integer MR_COUNT=2;

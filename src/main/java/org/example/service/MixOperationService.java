@@ -6,12 +6,11 @@ import org.example.model.*;
 import org.example.repository.MixOperationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
-@Transactional(readOnly = true)
 public class MixOperationService {
 
     @Autowired
@@ -26,7 +25,6 @@ public class MixOperationService {
 
     Logger logger = LogManager.getLogger(MixOperationService.class);
 
-    @Transactional
     public MixOperation startMixingSquads(MixOperation mixOperation) throws Exception {
        //validation
         if (mixOperation.getUser() == null) {
@@ -47,6 +45,11 @@ public class MixOperationService {
             return null;
         }
 
+
+        mixOperation.setCreated(LocalDateTime.now());
+        mixOperation.setUpdated(LocalDateTime.now());
+        mixOperation.setIsActive(true);
+
         //group players by role
         Map<Position, List<Player>> positionPlayerListMap = groupPlayersByPosition(availablePlayers);
 
@@ -58,9 +61,12 @@ public class MixOperationService {
         for(Player p : playerList){
             MixOperationDetail mixOperationDetail=new MixOperationDetail();
             mixOperationDetail.setPlayer(p);
+            mixOperationDetail.setMixOperation(mixOperation);
             mixOperationDetailList.add(mixOperationDetail);
         }
-        mixOperation.setDetails(mixOperationDetailList);
+
+        mixOperation.getDetails().addAll(mixOperationDetailList);
+
         return mixOperationRepository.save(mixOperation);
     }
 
@@ -102,7 +108,7 @@ public class MixOperationService {
         playerList.addAll(getRandomPlayers(positionListMap,ServiceParameterConstants.RB_COUNT,"RB"));
         playerList.addAll(getRandomPlayers(positionListMap,ServiceParameterConstants.LB_COUNT,"LB"));
         playerList.addAll(getRandomPlayers(positionListMap,ServiceParameterConstants.CB_COUNT,"CB"));
-        playerList.addAll(getRandomPlayers(positionListMap,ServiceParameterConstants.MD_COUNT,"MD"));
+        playerList.addAll(getRandomPlayers(positionListMap,ServiceParameterConstants.MDO_COUNT,"MDO"));
         playerList.addAll(getRandomPlayers(positionListMap,ServiceParameterConstants.MO_COUNT,"MO"));
         playerList.addAll(getRandomPlayers(positionListMap,ServiceParameterConstants.AMC_COUNT,"AMC"));
         playerList.addAll(getRandomPlayers(positionListMap,ServiceParameterConstants.MR_COUNT,"MR"));
@@ -123,9 +129,9 @@ public class MixOperationService {
         }
 
         for(int i=0;i<positionCount;i++){
-            Player chosenGK = availablePlayerList.get(randomizer.nextInt(availablePlayerList.size()));
-            playerList.add(chosenGK);
-            availablePlayerList.remove(chosenGK);
+            Player chosenPlayer = availablePlayerList.get(randomizer.nextInt(availablePlayerList.size()));
+            playerList.add(chosenPlayer);
+            availablePlayerList.remove(chosenPlayer);
         }
         return playerList;
     }
