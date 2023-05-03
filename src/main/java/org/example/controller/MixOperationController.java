@@ -1,13 +1,10 @@
 package org.example.controller;
 
 import org.example.model.MixOperation;
-import org.example.model.Player;
-import org.example.model.User;
 import org.example.service.MixOperationService;
 import org.example.service.PlayerService;
 import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 

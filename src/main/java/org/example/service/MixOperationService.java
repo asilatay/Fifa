@@ -23,9 +23,6 @@ public class MixOperationService {
     @Autowired
     private PlayerService playerService;
 
-
-
-
     Logger logger = LogManager.getLogger(MixOperationService.class);
 
     public MixOperation startMixingSquads(MixOperation mixOperation) throws Exception {

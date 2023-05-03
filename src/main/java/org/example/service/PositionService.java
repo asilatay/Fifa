@@ -1,9 +1,7 @@
 package org.example.service;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.model.Player;
 import org.example.model.Position;
-import org.example.repository.PlayerRepository;
 import org.example.repository.PositionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

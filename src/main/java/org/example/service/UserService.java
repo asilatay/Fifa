@@ -1,9 +1,7 @@
 package org.example.service;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.example.model.Position;
 import org.example.model.User;
-import org.example.repository.PositionRepository;
 import org.example.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +19,7 @@ public class UserService {
 
     Logger logger = LogManager.getLogger(UserService.class);
 
-    @Transactional(readOnly = false)
+    @Transactional
     public User saveUser(User user) throws Exception {
         if (user == null) {
             throw new Exception("Entity not found");
@@ -57,7 +55,7 @@ public class UserService {
         return userRepository.getReferenceById(userId);
     }
 
-    @Transactional(readOnly = false)
+    @Transactional
     public void setPassiveUser(long userId) {
         if (userId <= 0L) {
             logger.info("userId cannot be less or equal than zero. UserId: " + userId);
@@ -78,7 +76,7 @@ public class UserService {
         }
     }
 
-    @Transactional(readOnly = false)
+    @Transactional
     public void activateUser(long userId) {
         if (userId <= 0L) {
             logger.info("userId cannot be less or equal than zero. userId: " + userId);
