@@ -1,14 +1,14 @@
 package org.example.controller;
 
 import org.example.model.MixOperation;
+import org.example.model.Player;
 import org.example.model.User;
 import org.example.service.MixOperationService;
+import org.example.service.PlayerService;
 import org.example.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
@@ -20,6 +20,9 @@ public class MixOperationController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    PlayerService playerService;
 
     @GetMapping("/mixSquads")
     public ModelAndView showMixxedSquads() {
@@ -44,5 +47,27 @@ public class MixOperationController {
     public ModelAndView startMixSquad(@ModelAttribute("mixOperation") MixOperation mixOperation) throws Exception{
         mixOperationService.startMixingSquads(mixOperation);
         return showMixxedSquads();
+    }
+
+    @GetMapping("/mixOperation/detail/{id}")
+    public ModelAndView showMixDetail(@PathVariable(value = "id") long id) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("mixedListDetail");
+        modelAndView.addObject("playerList", playerService.getMixedPlayers(id));
+        return  modelAndView;
+    }
+
+    @GetMapping("/mixOperation/cancel/{id}")
+    public ModelAndView cancelOperation(@PathVariable(value = "id") long id) {
+        mixOperationService.setPassiveOperation(id);
+        return showMixxedSquads();
+
+    }
+
+    @GetMapping("/mixOperation/activate/{id}")
+    public ModelAndView activateOperation(@PathVariable(value = "id") long id) {
+        mixOperationService.setActivateOperation(id);
+        return showMixxedSquads();
+
     }
 }

@@ -20,4 +20,11 @@ public interface PlayerRepository extends JpaRepository <Player,Long> {
             "       where mo.is_active = true" +
             "  ) and p.is_active = true and p.rating >= :minPlayerRating and p.rating <= :maxPlayerRating", nativeQuery = true)
     List<Player> getAvailablePlayers(@Param("minPlayerRating") int minPlayerRating, @Param("maxPlayerRating") int maxPlayerRating);
+
+
+    @Query(value = "select p.* from mix_operation mo " +
+            "join mix_operation_detail mod2  on mo.id = mod2.mix_operation_id " +
+            "join player p  on p.id = mod2.player_id " +
+            "where mo.id =:id", nativeQuery = true)
+    List<Player> getMixedPlayers(@Param("id") long mixOperationId);
 }

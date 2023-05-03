@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -95,5 +96,11 @@ public class PlayerService {
     public List<Player> getAvailablePlayers(int minPlayerRating, int maxPlayerRating) {
         List<Player> availablePlayers = playerRepository.getAvailablePlayers(minPlayerRating, maxPlayerRating);
         return availablePlayers;
+    }
+
+    public List<Player> getMixedPlayers(long mixedOperationId){
+        List<Player> playerList=new ArrayList<Player>();
+        playerList=playerRepository.getMixedPlayers(mixedOperationId);
+        return playerList;
     }
 }

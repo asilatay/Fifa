@@ -6,6 +6,7 @@ import org.example.model.*;
 import org.example.repository.MixOperationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -21,6 +22,8 @@ public class MixOperationService {
 
     @Autowired
     private PlayerService playerService;
+
+
 
 
     Logger logger = LogManager.getLogger(MixOperationService.class);
@@ -135,5 +138,47 @@ public class MixOperationService {
         }
         return playerList;
     }
+    @Transactional(readOnly = false)
+    public void setActivateOperation(long operationId) {
+        if (operationId <= 0L) {
+            logger.info("OperationId cannot be less or equal than zero. OperationId: " + operationId);
+            return;
+        }
+
+        MixOperation mixoperation = mixOperationRepository.getReferenceById(operationId);
+        if (mixoperation == null) {
+            logger.info("Operation not found for that OperationId: " + operationId);
+            return;
+        }
+
+        mixoperation.setIsActive(true);
+        try {
+            mixOperationRepository.save(mixoperation);
+        } catch (Exception e) {
+            logger.error(e);
+        }
+    }
+
+    @Transactional(readOnly = false)
+    public void setPassiveOperation(long operationId) {
+        if (operationId <= 0L) {
+            logger.info("OperationId cannot be less or equal than zero. OperationId: " + operationId);
+            return;
+        }
+
+        MixOperation mixoperation = mixOperationRepository.getReferenceById(operationId);
+        if (mixoperation == null) {
+            logger.info("Operation not found for that OperationId: " + operationId);
+            return;
+        }
+
+        mixoperation.setIsActive(false);
+        try {
+            mixOperationRepository.save(mixoperation);
+        } catch (Exception e) {
+            logger.error(e);
+        }
+    }
+
 
 }
